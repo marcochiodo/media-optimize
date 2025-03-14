@@ -9,8 +9,11 @@
 DEFAULT_WIDTH_IMAGE_LANDSCAPE="2560 1920 1600"
 DEFAULT_WIDTH_IMAGE_PORTRAIT="1200 900 600"
 DEFAULT_WIDTH_IMAGE_SQUARE="1200 900 600"
+
 DEFAULT_WEBP_QUALITY=80
 DEFAULT_AVIF_QUALITY="50%"
+
+FILENAME_REGEX=".*input(\-.+)?\.(jpg|jpeg|png|webp|avif)"
 
 # Check for config.sh in script's directory
 SCRIPT_DIR=$(dirname "$0")
@@ -42,7 +45,7 @@ process_directory() {
 
     # Find all image files in the directory and subdirectories
     # Find all image files with names that match the pattern input-* or input.*
-    find "$dir" -type f -regextype posix-extended -regex ".*input(\-.+)?\.(jpg|jpeg|png|webp|avif)" | while read -r img_file; do
+    find "$dir" -type f -regextype posix-extended -regex $FILENAME_REGEX | while read -r img_file; do
         # Get directory where the image is located
         img_dir=$(dirname "$img_file")
 

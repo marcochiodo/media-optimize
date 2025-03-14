@@ -27,8 +27,8 @@ fi
 
 # Function to determine image orientation
 get_orientation() {
-    local width=$1
-    local height=$2
+    width="$1"
+    height="$2"
 
     if [ "$width" -gt "$height" ]; then
         echo "l"  # Landscape
@@ -41,18 +41,18 @@ get_orientation() {
 
 # Process directory recursively
 process_directory() {
-    local dir="$1"
+    dir="$1"
 
     # Find all image files in the directory and subdirectories
     # Find all image files with names that match the pattern input-* or input.*
-    find "$dir" -type f -regextype posix-extended -regex $FILENAME_REGEX | while read -r img_file; do
+    find "$dir" -type f -regextype posix-extended -regex "$FILENAME_REGEX" | while read -r img_file; do
         # Get directory where the image is located
         img_dir=$(dirname "$img_file")
 
         # Get image dimensions using identify from ImageMagick
         dimensions=$(identify -format "%w %h" "$img_file")
-        width=$(echo $dimensions | cut -d' ' -f1)
-        height=$(echo $dimensions | cut -d' ' -f2)
+        width=$(echo "$dimensions" | cut -d' ' -f1)
+        height=$(echo "$dimensions" | cut -d' ' -f2)
 
         WIDTH_IMAGE_LANDSCAPE=$DEFAULT_WIDTH_IMAGE_LANDSCAPE
         WIDTH_IMAGE_PORTRAIT=$DEFAULT_WIDTH_IMAGE_PORTRAIT

@@ -85,11 +85,12 @@ process_directory() {
             fi
 
             # Calculate height proportionally
-            target_height=$(echo "scale=0; $target_width * $height / $width" | bc)
+            # done automatically from imagick
+            #target_height=$(echo "scale=0; $target_width * $height / $width" | bc)
 
             # Check if WebP version already exists
             if [ ! -f "$img_dir/v${orientation}-w${target_width}.webp" ]; then
-                gm convert "$img_file" -resize "${target_width}x${target_height}" \
+                gm convert "$img_file" -resize "${target_width}x" \
                     -strip -quality $WEBP_QUALITY -define webp:method=6 \
                     "$img_dir/v${orientation}-w${target_width}.webp"
             fi
@@ -97,7 +98,7 @@ process_directory() {
             # Check if AVIF version already exists
             if [ ! -f "$img_dir/v${orientation}-w${target_width}.avif" ]; then
                 # Generate AVIF version
-                convert "$img_file" -resize "${target_width}x${target_height}" \
+                convert "$img_file" -resize "${target_width}x" \
                     -strip -quality $AVIF_QUALITY \
                     "$img_dir/v${orientation}-w${target_width}.avif"
             fi
